@@ -2,44 +2,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float _speed = 5.0f;
+    public float speed = 5.0f;
     private Rigidbody _playerRb;
-    private float _zBound = 6;
+    private GameObject focalPoint;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _playerRb = GetComponent<Rigidbody>();
+        focalPoint = GameObject.Find("Focal Point");
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
-
-        ConstrainPlayerPosition();
-    }
-
-    private void ConstrainPlayerPosition()
-    {
-        if (transform.position.z < -_zBound)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, -_zBound);
-        }
-
-        if (transform.position.z > _zBound)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, _zBound);
-        }
-    }
-
-    private void MovePlayer()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
-        _playerRb.AddForce(Vector3.forward * (_speed * verticalInput));
-        _playerRb.AddForce(Vector3.right * (_speed * horizontalInput));
+        _playerRb.AddForce(focalPoint.transform.forward * (speed * verticalInput));
     }
 }
